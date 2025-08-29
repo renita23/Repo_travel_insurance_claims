@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: stage1
+    schema: raw_data   # ADF writes here
+    tables:
+      - name: travel_claims_raw
+
+models:
+  - name: stg_claims
+    columns:
+      - name: claim_id
+        tests:
+          - not_null
+          - unique
+      - name: claim_status
+        tests:
+          - arguments:
+                values: ['OPEN', 'CLOSED', 'PENDING']
+      - name: claim_amount
+        tests:
+          - not_null
+
+
