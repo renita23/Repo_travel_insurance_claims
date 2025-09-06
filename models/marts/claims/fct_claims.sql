@@ -1,13 +1,11 @@
 select
-    claim_id,
-    policy_id,
-    customer_id,
-    claim_amount,
     claim_date,
-    claim_status,
-    case 
-        when claim_amount > 1000 then 'High'
-        when claim_amount between 500 and 1000 then 'Medium'
-        else 'Low'
-    end as claim_severity
+    count(*) as total_claims,
+    sum(claim_amount) as total_claim_amount,
+    sum(case when claim_severity = 'High' then 1 else 0 end) as high_severity_count,
+    sum(case when claim_severity = 'Medium' then 1 else 0 end) as medium_severity_count,
+    sum(case when claim_severity = 'Low' then 1 else 0 end) as low_severity_count
 from {{ ref('stg_claims') }}
+group by claim_date
+
+{{ config(materialized='table') }}

@@ -21,4 +21,13 @@ models:
         tests:
           - not_null
 
+  - name: fct_claims
+    columns:
+      - name: total_claims
+        tests:
+          - not_null
+      - name: total_claim_amount
+        tests:
+          - not_null
+
 
